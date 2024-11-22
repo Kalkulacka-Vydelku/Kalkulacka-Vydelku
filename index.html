@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulačka výdělků-Foodora</title>
+  <link rel="icon" href="https://micro-assets.foodora.com/favicons/fo-eu/favicon-16x16.png" sizes="16x16"/>
+  <link rel="icon" href="https://micro-assets.foodora.com/favicons/fo-eu/favicon-32x32.png" sizes="32x32"/>
+  <link rel="icon" href="https://micro-assets.foodora.com/favicons/fo-eu/favicon-96x96.png" sizes="96x96"/>
+  <link rel="shorcut icon" href="https://micro-assets.foodora.com/favicons/fo-eu/android-chrome-192x192.png" sizes="192x192"/>
+
+ 
+  <style>
+    /* Obecné nastavení sekce */
+    /* Zajistí odstranění okrajů a paddingů */
+    /* Odstranění lišty, která není součástí systémové */
+    
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-image: url(https://media.istockphoto.com/id/911750060/cs/fotografie/valentines-day-r%C5%AF%C5%BEov%C3%A9-abstraktn%C3%AD-pozad%C3%AD.jpg?s=612x612&w=0&k=20&c=vRpAyoP-qg8oe71SlhxpIb23YlNScXMUucvPg8TclKM=);
+      background-repeat: no-repeat; /* Zamezí opakování obrázku */
+      background-size: cover; /* Obrázek se přizpůsobí celé obrazovce */
+      background-position: center; /* Obrázek se vycentruje */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0; /* Odstranění paddingu pro tělo */
+      overflow: hidden; /* Skrytí scrollování */
+    }
+
+    /* Styl navigace */
+    .navbar {
+      width: 100%;
+      background-color: #df1067;
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      position: fixed; /* Fixace navigace */
+      top: 0; /* Umístění navigace nahoře */
+      left: 0;
+      z-index: 10; /* Zajištění, že navigace bude nad ostatními prvky */
+    }
+
+    .nav-link {
+      color: white;
+      font-size: 18px;
+      margin: 0 15px;
+      text-decoration: none; /* Odstranění podtržení */
+      transition: opacity 0.3s;
+    }
+
+    .nav-link:hover {
+      opacity: 0.8; /* Změna opacity při hover */
+    }
+
+    .section-calculator {
+      width: 100%;
+      max-width: 450px; /* Maximální šířka sekce */
+      padding: 30px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      margin-top: 80px; /* Přidání marginu pro prostor pod fixovanou navigací */
+      overflow: auto; /* Umožňuje scrollování, pokud je obsah delší */
+      max-height: calc(100vh - 100px); /* Zajištění, že sekce nezabere více než zbytek obrazovky */
+    }
+
+    .heading-h2---48 {
+      font-size: 26px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    /* Styl kalkulačky */
+    .input-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .input-title {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .money-format {
+      padding: 12px;
+      font-size: 18px;
+      width: 90%;
+      max-width: 300px; /* Maximální šířka inputu */
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .money-format:focus {
+      border-color: #007bff;
+    }
+
+    /* Výstupní kontejnery */
+    .output-container {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #555;
+      position: relative; /* Pozice pro pseudo-element */
+    }
+
+    .output-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .output-title::after {
+      content: "";
+      display: block;
+      height: 3px; /* Tloušťka podtržení */
+      background-color: #d60265; /* Barva podtržení */
+      margin-top: 5px; /* Mezera mezi textem a podtržením */
+      width: 100%; /* Šířka podtržení */
+      position: absolute;
+      left: 0;
+      bottom: -5px; /* Umístění podtržení */
+    }
+
+    .result-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: bold;
+      color: #270000;
+      margin-top: 10px;
+    }
+
+    .invest_output_result {
+      color: #df1067;
+      margin-left: 10px;
+    }
+
+    /* Media Queries pro responsivní design */
+    @media (max-width: 480px) {
+      .heading-h2---48 {
+        font-size: 22px; /* Menší nadpis pro menší obrazovky */
+      }
+
+      .input-title {
+        font-size: 14px; /* Menší text pro vstup */
+      }
+
+      .money-format {
+        font-size: 16px; /* Menší text v inputu */
+      }
+
+      .output-title {
+        font-size: 16px; /* Menší text pro výstup */
+      }
+
+      .result-container {
+        font-size: 24px; /* Menší výstupní text */
+      }
+
+      .nav-link {
+        font-size: 16px; /* Menší text pro navigaci */
+        margin: 0 10px; /* Menší mezera mezi odkazy */
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigační lišta -->
+<nav class="navbar"> 
+  <a href="https://join.foodora.cz/s/" class="nav-link">Foodora Partner tvoje mama</a>
+  <a href="https://www.rozvazej-foodora.cz/" class="nav-link">Foodora Moje Flotila</a>
+  <a href="https://www.foodora.cz/contents/contact.htm" class="nav-link">Foodora Podpora</a>
+</nav>
+
+<section class="section-calculator">
+  <h2 class="heading-h2---48">Kalkulačka výdělků</h2>
+  <div class="input-container">
+    <label for="invest_input" class="input-title">Zadejte počet hodin, které chcete měsíčně pracovat</label>
+    <input class="money-format" maxlength="256" name="name" placeholder="0" type="number" id="invest_input" oninput="calculateEarnings()"/>
+  </div>
+  
+  <div class="output-container">
+    <div class="output-title">Váš pravděpodobný měsíční výdělek</div>
+    <div class="result-container">
+      <span id="invest_output_result" class="invest_output_result">0</span>Kč
+    </div>
+  </div>
+</section>
+
+<script>
+  function calculateEarnings() {
+    var input = document.getElementById("invest_input").value;
+    var result = (input * 357).toFixed(0);
+    document.getElementById('invest_output_result').innerHTML = result;
+  }
+</script>
+
+</body>
+</html>
+
+
+
+
+<!-- GitHub -->
+<!-- Email: kalkulacka-vydelku@post.cz -->
+<!-- Heslo: Kalkulačka-vydělku.cz -->
+<!--------------------------------------->
+<!-- Přihlašenní na hosting -->
+<!--Jméno: kalkulackavydelk -->
+<!--heslo: Kubakuba2 -->
+<!--email: tbmacogxarbgfuyiru@poplk.com -->
